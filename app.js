@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const authController = require('./controllers/authController');
-
+const adminController = require('./controllers/adminController');
 // App initialization
 const app = express();
 app.set('view engine', 'ejs');
@@ -24,6 +24,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/login', authController);
+app.use('/admin', adminController);
 
 // Server
 const PORT = 4000;
