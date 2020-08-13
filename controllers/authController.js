@@ -5,8 +5,8 @@ const { body, validationResult } = require('express-validator');
 const users = require('../data');
 
 const userValidator = [
-  body('username').isLength({ min: 3 }), // for dev purpose
-  body('password').isLength({ min: 4 }),
+  body('username').not().isEmpty().trim(),
+  body('password').not().isEmpty().isLength({ min: 4 }),
 ];
 
 router.get('/', (req, res) => {
