@@ -69,4 +69,29 @@ router.get('/AllEmployeeList', (req, res) => {
   res.render('admin/AllEmployeeList', { users });
 });
 
+// Edit Employee
+router.get('/update/:id', (req, res) => {
+  console.log(req.params.id);
+  const user = users.find((user) => user.id === req.params.id);
+  res.render('admin/editEmployee', { user });
+});
+
+
+
+
+// Delete Employee GET
+router.get('/delete/:id', (req, res) => {
+  console.log(req.params.id);
+  const user = users.find((user) => user.id === req.params.id);
+  res.render('admin/deleteEmployee', { user });
+});
+
+// Delete Employee GET
+router.post('/delete/:id', (req, res) => {
+  console.log(req.params.id);
+  const newUsers = users.filter((user) => user.id !== req.params.id);
+  users = newUsers;
+  res.redirect('/admin/AllEmployeeList');
+});
+
 module.exports = router;

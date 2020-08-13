@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Delete Employee</title>
+  </head>
+
+  <body>
+    <h1>Delete Employee</h1>
+    <form method="POST" action="/admin/delete/<%= user.id %>">
+      <fieldset>
+        <legend>Delete user</legend>
+
+        <ul>
+          Name: <%= user.username %>
+          <br />
+          ID: <%= user.id %>
+          <br />
+          Phone: <%= user.userData.phone %>
+        </ul>
+
+        <h5>Are you sure to delete this employee?</h5>
+
+        <a href="/admin/allEmployeeList">Cancel</a>
+        <button type="submit">Confirm</button>
+      </fieldset>
+    </form>
+  </body>
+</html>
