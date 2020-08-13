@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const authController = require('./controllers/authController');
 const adminController = require('./controllers/adminController');
+const employeeController = require('./controllers/employeeController');
 // App initialization
 const app = express();
 app.set('view engine', 'ejs');
@@ -25,6 +26,7 @@ app.get('/', (req, res) => {
 
 app.use('/login', authController);
 app.use('/admin', adminController);
+app.use('/employee', employeeController);
 
 // Server
 const PORT = 4000;
