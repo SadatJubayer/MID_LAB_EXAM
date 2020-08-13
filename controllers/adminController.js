@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
     totalUsers: users.length,
     admins: adminCount,
   };
-  res.render('admin/dashboard', { data });
+  return res.render('admin/dashboard', { data });
 });
 
 // Add Employee Route
@@ -37,7 +37,7 @@ const employeeValidator = [
 ];
 
 router.get('/AddEmployee', (req, res) => {
-  res.render('admin/AddEmployee');
+  return res.render('admin/AddEmployee');
 });
 
 router.post('/AddEmployee', employeeValidator, (req, res) => {
@@ -61,19 +61,19 @@ router.post('/AddEmployee', employeeValidator, (req, res) => {
   };
 
   users.push(data);
-  res.render('admin/AllEmployeeList', { users });
+  return res.render('admin/AllEmployeeList', { users });
 });
 
 // Get all Employee Route
 router.get('/AllEmployeeList', (req, res) => {
-  res.render('admin/AllEmployeeList', { users });
+  return res.render('admin/AllEmployeeList', { users });
 });
 
 // Edit Employee
 router.get('/update/:id', (req, res) => {
   console.log(req.params.id);
   const user = users.find((user) => user.id === req.params.id);
-  res.render('admin/editEmployee', { user });
+  return res.render('admin/editEmployee', { user });
 });
 
 // Edit Employee POST
@@ -100,14 +100,14 @@ router.post('/update/:id', (req, res) => {
 
   console.log('new users', users);
 
-  res.redirect('/admin/AllEmployeeList');
+  return res.redirect('/admin/AllEmployeeList');
 });
 
 // Delete Employee GET
 router.get('/delete/:id', (req, res) => {
   console.log(req.params.id);
   const user = users.find((user) => user.id === req.params.id);
-  res.render('admin/deleteEmployee', { user });
+  return res.render('admin/deleteEmployee', { user });
 });
 
 // Delete Employee GET
