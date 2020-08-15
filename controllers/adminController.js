@@ -8,6 +8,7 @@ const {
   getSingleUser,
   updateUser,
   removeUser,
+  searchUsers,
 } = require('../models/users');
 
 // Admin home GET
@@ -86,6 +87,13 @@ router.post('/delete/:id', (req, res) => {
   console.log(req.params.id);
   removeUser(req.params.id, (result) => {
     res.redirect('/admin/AllEmployeeList');
+  });
+});
+
+router.post('/search', (req, res) => {
+  searchUsers(req.body.term, (result) => {
+    console.log(result);
+    res.send({ success: true, response: result });
   });
 });
 

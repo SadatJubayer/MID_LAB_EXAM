@@ -11,6 +11,8 @@ app.set('view engine', 'ejs');
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 app.use(
   session({
     secret: 'my_super_secret_key',

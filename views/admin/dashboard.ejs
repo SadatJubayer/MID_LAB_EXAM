@@ -27,9 +27,56 @@
           <td><%= user.username %></td>
           <td><%= user.designation %></td>
         </tr>
-
         <% }) %>
       </table>
     </div>
+    <br />
+    <br />
+    <form id="search" action="/admin/search">
+      <input type="text" name="searchTerm" id="searchTerm" />
+      <br />
+      <button type="submit">Search</button>
+    </form>
+    <div id="result"></div>
   </body>
+
+  <script>
+    const search = document.getElementById('search');
+    const result = document.getElementById('result');
+    search.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const searchTerm = document.getElementById('searchTerm');
+
+      if (!searchTerm.value) {
+        alert('enter username to search');
+      } else {
+        fetch('/admin/search', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ searchTerm: searchTerm.value }),
+        })
+          .then((res) => {
+            return res.json();
+          })
+          .then((res) => {
+            console.log(res);
+            if (res.response === undefined || res.response.length == 0) {
+              result.innerHTML = 'No result found';
+            } else {
+              const doc = '';
+              res.response.forEach((user) => {
+                doc += `<li> ${user.username} </li>`;
+                doc += `<li> ${user.email} </li>`;
+                doc += `<li> ${user.gender} </li>`;
+              });
+
+              doc = `<td> ${doc} </td>`;
+              result.innerHTML = doc;
+            }
+          });
+      }
+    });
+  </script>
 </html>

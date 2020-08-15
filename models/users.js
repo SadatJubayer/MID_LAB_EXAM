@@ -49,3 +49,10 @@ module.exports.removeUser = function (id, callback) {
     callback(result);
   });
 };
+
+module.exports.searchUsers = function (searchTerm, callback) {
+  const sql = `SELECT * FROM users WHERE users.username LIKE '%${searchTerm}%'`;
+  getResults(sql, [null], (result) => {
+    callback(result);
+  });
+};
