@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
 
-const { userLogin } = require('../models/users');
+const { userLogin, getAllEmployees } = require('../models/users');
 
 const userValidator = [
   body('username').not().isEmpty().trim(),
@@ -25,8 +25,6 @@ router.post('/', userValidator, (req, res) => {
   const password = req.body.password;
 
   userLogin(username, (result) => {
-    console.log(result);
-
     if (result.length === 0) {
       return res.render('auth/login', { error: 'Username not found' });
     }

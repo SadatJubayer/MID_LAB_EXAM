@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
+const { getAllEmployees } = require('../models/users');
 
 // Admin home GET
 router.get('/', (req, res) => {
-  return res.render('admin/dashboard', { user: req.session.user });
+  getAllEmployees((result) => {
+    return res.render('admin/dashboard', { users: result });
+  });
 });
 
 // Add Employee Route
