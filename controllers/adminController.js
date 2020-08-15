@@ -50,7 +50,9 @@ router.post('/AddEmployee', employeeValidator, (req, res) => {
 
 // Get all Employee Route
 router.get('/AllEmployeeList', (req, res) => {
-  return res.render('admin/AllEmployeeList', { users });
+  getAllUsers((result) => {
+    return res.render('admin/AllEmployeeList', { users: result });
+  });
 });
 
 // Edit Employee
