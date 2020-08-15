@@ -1,11 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
-const { getAllEmployees } = require('../models/users');
+const {
+  userRegister,
+  getAllUsers,
+  getAllEmployees,
+} = require('../models/users');
 
 // Admin home GET
 router.get('/', (req, res) => {
-  getAllEmployees((result) => {
+  getAllUsers((result) => {
     return res.render('admin/dashboard', { users: result });
   });
 });
@@ -16,7 +20,7 @@ const employeeValidator = [
     .isLength({ min: 8 })
     .withMessage('Username must be at least 8 chars long'), // for dev purpose
   body('phone')
-    .isLength({ min: 11 })
+    .isLength({ min: 11, max: 11 })
     .withMessage('Phone must be at least 11 chars long'),
   body('password')
     .isLength({ min: 8 })
@@ -37,22 +41,11 @@ router.post('/AddEmployee', employeeValidator, (req, res) => {
     return res.render('admin/AddEmployee', { error: errors.array() });
   }
 
-  const data = {
-    id: Date.now(),
-    username: req.body.username,
-    password: req.body.password,
-    isAdmin: false,
-    userData: {
-      phone: req.body.phone,
-      email: req.body.email,
-      gender: req.body.gender,
-      address: req.body.address,
-      designation: req.body.designation,
-    },
-  };
+  console.log(req.body);
 
-  users.push(data);
-  return res.render('admin/AllEmployeeList', { users });
+  userRegister(req.body, (result) => {
+    return res.redirect('/admin');
+  });
 });
 
 // Get all Employee Route
