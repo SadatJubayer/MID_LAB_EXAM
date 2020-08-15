@@ -5,6 +5,7 @@ const authController = require('./controllers/authController');
 const adminController = require('./controllers/adminController');
 const employeeController = require('./controllers/employeeController');
 const multer = require('multer');
+const { getSingleUser } = require('./models/users');
 
 // App initialization
 const app = express();
@@ -23,14 +24,30 @@ app.use(
   })
 );
 
+// Private route
+
+const privateRoute = (req, res, next) => {
+  if (req.session.user) {
+    getSingleUser(req.session.user.id, (result) => {
+      if (result) {
+        next();
+      } else {
+        return res.redirect('/login');
+      }
+    });
+  } else {
+    return res.redirect('/login');
+  }
+};
+
 // Routes
 app.get('/', (req, res) => {
   res.json({ status: 'Server is up & running' });
 });
 
 app.use('/login', authController);
-app.use('/admin', adminController);
-app.use('/employee', employeeController);
+app.use('/admin', privateRoute, adminController);
+app.use('/employee', privateRoute, employeeController);
 
 // Server
 const PORT = 4000;
