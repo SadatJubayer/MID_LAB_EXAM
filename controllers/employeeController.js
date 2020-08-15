@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-let users = require('../data');
-
 // Employee home GET
 router.get('/', (req, res) => {
   return res.render('employee/index');
@@ -14,6 +12,13 @@ router.get('/myProfile', (req, res) => {
 
   console.log(user);
   return res.render('employee/myProfile', { user: user });
+});
+
+// Employee profile GET
+router.get('/updateProfile', (req, res) => {
+  const user = users.find((user) => user.username === req.session.username);
+  console.log(user);
+  return res.render('employee/updateProfile', { user: user });
 });
 
 module.exports = router;

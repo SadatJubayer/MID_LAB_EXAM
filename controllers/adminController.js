@@ -2,21 +2,9 @@ const express = require('express');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
 
-let users = require('../data');
-
 // Admin home GET
 router.get('/', (req, res) => {
-  let adminCount = 0;
-  users.forEach((user) => {
-    if (user.isAdmin) {
-      adminCount++;
-    }
-  });
-  const data = {
-    totalUsers: users.length,
-    admins: adminCount,
-  };
-  return res.render('admin/dashboard', { data });
+  return res.render('admin/dashboard', { user: req.session.user });
 });
 
 // Add Employee Route

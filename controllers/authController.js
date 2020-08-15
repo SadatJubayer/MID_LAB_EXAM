@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
 
-const users = require('../data');
+const { userLogin } = require('../models/users');
 
 const userValidator = [
   body('username').not().isEmpty().trim(),
@@ -13,6 +13,7 @@ router.get('/', (req, res) => {
   return res.render('auth/login');
 });
 
+// Login
 router.post('/', userValidator, (req, res) => {
   const errors = validationResult(req);
 
@@ -23,26 +24,25 @@ router.post('/', userValidator, (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
 
-  // Check validity
-  users.forEach((user) => {
-    // Check username
-    if (user.username === username) {
-      // Check password
-      if (user.password === password) {
-        // Check user type
-        req.session.username = username;
-        if (user.isAdmin) {
-          return res.redirect('/admin');
-        } else {
-          return res.redirect('/employee');
-        }
-      } else {
-        return res.render('auth/login', { error: 'Invalid credentials' });
-      }
+  userLogin(username, (result) => {
+    console.log(result);
+
+    if (result.length === 0) {
+      return res.render('auth/login', { error: 'Username not found' });
+    }
+
+    if (password !== result[0].password) {
+      return res.render('auth/login', { error: 'Invalid credentials' });
+    }
+
+    if (result[0].designation === 'admin') {
+      req.session.user = result[0];
+
+      return res.redirect('/admin');
+    } else {
+      return res.redirect('/employee');
     }
   });
-
-  return res.render('auth/login', { error: 'Invalid credentials' });
 });
 
 module.exports = router;
