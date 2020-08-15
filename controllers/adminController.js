@@ -7,6 +7,7 @@ const {
   getAllEmployees,
   getSingleUser,
   updateUser,
+  removeUser,
 } = require('../models/users');
 
 // Admin home GET
@@ -64,7 +65,6 @@ router.get('/update/:id', (req, res) => {
   });
 });
 
-
 // Edit Employee POST
 router.post('/update/:id', (req, res) => {
   console.log('new users', req.body);
@@ -75,17 +75,18 @@ router.post('/update/:id', (req, res) => {
 
 // Delete Employee GET
 router.get('/delete/:id', (req, res) => {
-  console.log(req.params.id);
-  const user = users.find((user) => user.id === req.params.id);
-  return res.render('admin/deleteEmployee', { user });
+  getSingleUser(req.params.id, (result) => {
+    console.log(result);
+    return res.render('admin/deleteEmployee', { user: result });
+  });
 });
 
 // Delete Employee GET
 router.post('/delete/:id', (req, res) => {
   console.log(req.params.id);
-  const newUsers = users.filter((user) => user.id !== req.params.id);
-  users = newUsers;
-  res.redirect('/admin/AllEmployeeList');
+  removeUser(req.params.id, (result) => {
+    res.redirect('/admin/AllEmployeeList');
+  });
 });
 
 module.exports = router;

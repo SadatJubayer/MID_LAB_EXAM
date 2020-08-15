@@ -42,3 +42,10 @@ module.exports.updateUser = function (id, data, callback) {
     callback(result);
   });
 };
+
+module.exports.removeUser = function (id, callback) {
+  const sql = 'DELETE FROM users WHERE users.id = ?';
+  execute(sql, [id], (result) => {
+    callback(result);
+  });
+};
