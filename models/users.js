@@ -56,3 +56,4 @@ module.exports.searchUsers = function (searchTerm, callback) {
     callback(result);
   });
 };
+

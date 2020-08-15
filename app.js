@@ -4,6 +4,8 @@ const session = require('express-session');
 const authController = require('./controllers/authController');
 const adminController = require('./controllers/adminController');
 const employeeController = require('./controllers/employeeController');
+const multer = require('multer');
+
 // App initialization
 const app = express();
 app.set('view engine', 'ejs');
@@ -35,3 +37,39 @@ const PORT = 4000;
 app.listen(PORT, () => {
   console.log('Server is running at ', PORT);
 });
+
+// File upload
+const storage = multer.diskStorage({
+  destination: './public/uploads',
+  filename: function (req, file, cb) {
+    cb(
+      null,
+      'user-' + req.session.user.username + path.extname(file.originalname)
+    );
+  },
+});
+
+module.exports.upload = multer({
+  storage,
+  limits: {
+    fileSize: 1000000,
+  },
+  fileFilter: function (req, file, cb) {
+    checkFileType(file, cb);
+  },
+}).single('image');
+
+function checkFileType(file, cb) {
+  // Allowed ext
+  const filetypes = /jpg|png/;
+  // Check ext
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  // Check mime
+  const mimetype = filetypes.test(file.mimetype);
+
+  if (mimetype && extname) {
+    return cb(null, true);
+  } else {
+    cb('Error: Images Only!');
+  }
+}

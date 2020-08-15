@@ -92,7 +92,6 @@ router.post('/delete/:id', (req, res) => {
 
 router.post('/search', (req, res) => {
   searchUsers(req.body.term, (result) => {
-    console.log(result);
     res.send({ success: true, response: result });
   });
 });

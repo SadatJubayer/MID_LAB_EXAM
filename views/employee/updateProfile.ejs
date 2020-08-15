@@ -1,62 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Profile</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Edit Profile</title>
-</head>
-
-<body>
-  <h1>Edit Profile</h1>
-  <form method="POST">
-    <fieldset>
-      <legend>Update user</legend>
-      <label for="username">Username: </label>
-      <input type="text" value="<%= user.username %>" name="username" id="username" />
-      <br />
-      <br />
-
-      <label for="Phone">Phone: </label>
-      <input type="text" value="<%= user.userData.phone %>" name="phone" id="Phone" />
-      <br />
-      <br />
-
-      <% const isMale = user.userData.gender === 'male' ? true : false %>
-
-      <label for="gender">Gender</label>
-      <input type="radio" value="male" name="gender" id="gender" <%if(isMale){%> <%="checked"%> <%}%>
-
-        /> Male
-        <input type="radio" name="gender" value="female" id="gender" <%if(!isMale){%> <%="checked"%> <%}%> />
-        Female
+  <body>
+    <h1>Edit Profile</h1>
+    <form method="POST">
+      <fieldset>
+        <legend>Update user</legend>
 
         <br />
+
+        <% if(typeof error != 'undefined' && error) { %> <% error.forEach(err =>
+        { %>
+        <p style="color: red;"><%= err.msg %></p>
+        <% }) %> <% } %>
+
         <br />
 
-        <label for="address">Address: </label>
+        <label for="username">Username: </label>
         <input
           type="text"
-          value="<%= user.userData.address %>" name="address" id="address" />
-      <br />
-      <br />
+          value="<%= user.username %>"
+          name="username"
+          id="username"
+        />
+        <br />
+        <br />
 
-      <% const designation = user.userData.designation %>
+        <label for="Phone">Phone: </label>
+        <input type="text" value="<%= user.phone %>" name="phone" id="Phone" />
+        <br />
+        <br />
 
-      <label for="designation">designation: </label>
-      <select name="designation" id="designation">
-        <option value="owner" <%if(designation === 'owner'){%> <%="selected"%> <%}%> >Owner </option>
-        <option value="manager" <%if(designation === 'manager'){%> <%="selected"%> <%}%>>Manager </option>
-        <option value="employee" <%if(designation === 'employee'){%> <%="selected"%> <%}%>>Employee </option>
-      </select>
+        <label for="Phone">Password: </label>
+        <input
+          type="text"
+          value="<%= user.password %>"
+          name="phone"
+          id="Phone"
+        />
+        <br />
+        <br />
 
+        <label for="gender">Gender</label>
+
+        <input type="radio" value="male" name="gender" id="gender" /> Male
+
+        <input type="radio" name="gender" value="female" id="gender" /> Female
 
         <br />
         <br />
 
-      <button type="submit">Update the Employee</button>
-    </fieldset>
-  </form>
-</body>
+        <input type="file" name="image" id="" />
 
+        <br />
+        <br />
+
+        <button type="submit">Update the Employee</button>
+        <br />
+      </fieldset>
+    </form>
+  </body>
 </html>
