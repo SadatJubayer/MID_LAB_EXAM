@@ -18,11 +18,11 @@
       <br />
 
       <label for="Phone">Phone: </label>
-      <input type="text" value="<%= user.userData.phone %>" name="phone" id="Phone" />
+      <input type="text" value="<%= user.phone %>" name="phone" id="Phone" />
       <br />
       <br />
 
-      <% const isMale = user.userData.gender === 'male' ? true : false %>
+      <% const isMale = user.gender === 'male' ? true : false %>
 
       <label for="gender">Gender</label>
       <input type="radio" value="male" name="gender" id="gender" <%if(isMale){%> <%="checked"%> <%}%>
@@ -34,14 +34,9 @@
         <br />
         <br />
 
-        <label for="address">Address: </label>
-        <input
-          type="text"
-          value="<%= user.userData.address %>" name="address" id="address" />
-      <br />
-      <br />
 
-      <% const designation = user.userData.designation %>
+
+      <% const designation = user.designation %>
 
       <label for="designation">designation: </label>
       <select name="designation" id="designation">

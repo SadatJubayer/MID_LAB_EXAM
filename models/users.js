@@ -28,3 +28,17 @@ module.exports.userRegister = function (data, callback) {
     callback(result);
   });
 };
+
+module.exports.getSingleUser = function (id, callback) {
+  const sql = 'SELECT * FROM users where users.id = ?';
+  getResults(sql, [id], (result) => {
+    callback(result[0]);
+  });
+};
+
+module.exports.updateUser = function (id, data, callback) {
+  const sql = `UPDATE users SET ? WHERE users.id = '${id}'`;
+  execute(sql, data, (result) => {
+    callback(result);
+  });
+};

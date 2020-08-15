@@ -5,6 +5,8 @@ const {
   userRegister,
   getAllUsers,
   getAllEmployees,
+  getSingleUser,
+  updateUser,
 } = require('../models/users');
 
 // Admin home GET
@@ -41,8 +43,6 @@ router.post('/AddEmployee', employeeValidator, (req, res) => {
     return res.render('admin/AddEmployee', { error: errors.array() });
   }
 
-  console.log(req.body);
-
   userRegister(req.body, (result) => {
     return res.redirect('/admin');
   });
@@ -58,35 +58,19 @@ router.get('/AllEmployeeList', (req, res) => {
 // Edit Employee
 router.get('/update/:id', (req, res) => {
   console.log(req.params.id);
-  const user = users.find((user) => user.id === req.params.id);
-  return res.render('admin/editEmployee', { user });
+  getSingleUser(req.params.id, (result) => {
+    console.log(result);
+    return res.render('admin/editEmployee', { user: result });
+  });
 });
+
 
 // Edit Employee POST
 router.post('/update/:id', (req, res) => {
-  const newData = {
-    phone: req.body.phone,
-    gender: req.body.gender,
-    address: req.body.address,
-    designation: req.body.designation,
-  };
-
-  const user = users.find((user) => user.id === req.params.id);
-  const newUser = {
-    ...user,
-    username: req.body.username || user.username,
-    userData: { ...user.userData, newData },
-  };
-
-  users.forEach((user) => {
-    if (user.id === req.params.id) {
-      user = newUser;
-    }
+  console.log('new users', req.body);
+  updateUser(req.params.id, req.body, (result) => {
+    return res.redirect('/admin/AllEmployeeList');
   });
-
-  console.log('new users', users);
-
-  return res.redirect('/admin/AllEmployeeList');
 });
 
 // Delete Employee GET
