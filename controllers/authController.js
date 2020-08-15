@@ -33,9 +33,8 @@ router.post('/', userValidator, (req, res) => {
       return res.render('auth/login', { error: 'Invalid credentials' });
     }
 
+    req.session.user = result[0];
     if (result[0].designation === 'admin') {
-      req.session.user = result[0];
-
       return res.redirect('/admin');
     } else {
       return res.redirect('/employee');

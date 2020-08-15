@@ -1,4 +1,5 @@
 const express = require('express');
+const { getSingleUser } = require('../models/users');
 const router = express.Router();
 
 // Employee home GET
@@ -8,10 +9,11 @@ router.get('/', (req, res) => {
 
 // Employee profile GET
 router.get('/myProfile', (req, res) => {
-  const user = users.find((user) => user.username === req.session.username);
-
-  console.log(user);
-  return res.render('employee/myProfile', { user: user });
+  console.log(req.session.user);
+  const { id } = req.session.user;
+  getSingleUser(id, (result) => {
+    return res.render('employee/myProfile', { user: result });
+  });
 });
 
 // Employee profile GET
